@@ -15,6 +15,7 @@ const indexRouter = require('./routes/index.js');
 const productRouter = require('./routes/product.js');
 const userRouter = require('./routes/user')
 const cartRouter = require('./routes/cart')
+const adminRouter = require('./routes/admin')
 
 const app = express();
 
@@ -27,5 +28,6 @@ app.use('/', indexRouter);
 app.use('/product', productRouter)
 app.use('/user', userRouter)
 app.use('/cart', cartRouter)
+app.use('/admin', adminRouter)
 
 module.exports = app;

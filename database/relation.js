@@ -4,6 +4,7 @@ const sequelize = require('./_database');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const Cart = require('../models/Cart')
+const Order = require('../models/Order')
 
 User.belongsToMany(Product, { through: Cart, foreignKey: 'userId' });
 Product.belongsToMany(User, { through: Cart, foreignKey: 'productId' });
@@ -15,4 +16,5 @@ module.exports = {
     Product: Product,
     User: User,
     Cart: Cart,
+    Order: Order,
 };
