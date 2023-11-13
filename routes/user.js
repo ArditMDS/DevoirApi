@@ -3,7 +3,8 @@ var router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const { User } = require('../database/relation'); // Adjust the path based on your actual file structure
+const { User } = require('../database/relation');
+const {authenticateUser} = require("../middlewares/auth"); // Adjust the path based on your actual file structure
 
 function generateToken(id) {
     return jwt.sign({ id: id }, process.env.JWT_SECRET, { expiresIn: '1d' });
@@ -39,7 +40,6 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const body = req.body;
-
     if (!body.email || !body.password) {
         res.status(400).send("Tous les champs sont obligatoires");
         return;

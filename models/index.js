@@ -9,7 +9,7 @@ User.belongsToMany(Product, {through: Cart});
 Product.belongsToMany(User, {through: Cart});
 
 // Synchronisation de la base
-sequelize.sync({alter: true});
+sequelize.sync();
 
 module.exports = {
     Product: Product,
