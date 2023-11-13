@@ -17,11 +17,6 @@ const Product = sequelize.define('Product', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-
-    tags: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
 })
 
 module.exports = Product ;
