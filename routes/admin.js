@@ -10,7 +10,9 @@ const {authenticateUser} = require("../middlewares/auth");
 const User = require("../models/User");
 const Cart = require('../models/Cart');
 const Products = require('../models/Product')
+const bcrypt = require("bcrypt");
 
+//Ajouter un produit si on est admin
 router.post('/', async function(req, res){
     const user = await User.findByPk(authenticateUser(req));
     if(user.role === 'admin') {
@@ -28,6 +30,7 @@ router.post('/', async function(req, res){
     }
 });
 
+//Supprimer un produit si on est admin
 router.delete('/:id', async function(req, res){
     const user = await User.findByPk(authenticateUser(req));
     if(user.role === 'admin') {
@@ -55,6 +58,7 @@ router.delete('/:id', async function(req, res){
     }
 });
 
+//Modifier un produit si on est admin
 router.patch('/:id', async function(req, res){
     const user = await User.findByPk(authenticateUser(req));
     if(user.role === 'admin') {
@@ -82,6 +86,45 @@ router.patch('/:id', async function(req, res){
                 res.send("Erreur lors de la modification du panier")
 
             });
+    } else {
+        res.send("Vous n'avez pas les autorisations pour accéder à ce lien")
+    }
+});
+
+//Voir les utilisateurs si on est admin
+router.get('/users', async function(req, res, next) {
+    const user = await User.findByPk(authenticateUser(req));
+    if(user.role === 'admin') {
+        const body = req.body;
+        const id = req.params.id;
+        try{
+            const users = await User.findAll()
+            res.json(users);
+        } catch (error) {
+            res.send("Il y a eu une erreur", error)
+        }
+    } else {
+        res.send("Vous n'avez pas les autorisations pour accéder à ce lien")
+    }
+})
+
+//Ajouter un nouvelle admin si on est admin
+router.post('/user/new', async function(req, res){
+    const user = await User.findByPk(authenticateUser(req));
+    if(user.role === 'admin') {
+        const body = req.body;
+        try {
+            const hashedPassword = await bcrypt.hash(body.password, 12);
+            const user = await User.create({
+                email: body.email,
+                password: hashedPassword,
+                role: "admin",
+            })
+            res.json(user)
+        } catch (error) {
+            res.send("Il y a eu une erreur lors de la création de l'admin", error)
+        }
+
     } else {
         res.send("Vous n'avez pas les autorisations pour accéder à ce lien")
     }

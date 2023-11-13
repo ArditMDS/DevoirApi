@@ -11,6 +11,7 @@ const User = require("../models/User");
 const Cart = require('../models/Cart');
 const Products = require('../models/Product')
 
+//Permet de créer un panier si on est client
 router.post('/add/:id', async function(req, res, next)  {
     const productId = req.params.id;
     const quantity = req.query.quantity;
@@ -18,7 +19,7 @@ router.post('/add/:id', async function(req, res, next)  {
     if(product.stocks > 0) {
         try {
             const user = await User.findByPk(authenticateUser(req));
-            if(user.role !== "visiteur") {
+            if(user.role === "client") {
                 const cart = await Cart.create({
                     userId: user.id,
                     productId: productId,
@@ -40,6 +41,7 @@ router.post('/add/:id', async function(req, res, next)  {
 
 })
 
+//permet de supprimer un panier
 router.delete('/:id', async function(req, res, next) {
     const cartId = req.params.id;
     Cart.destroy({
@@ -61,6 +63,7 @@ router.delete('/:id', async function(req, res, next) {
         });
 })
 
+//Permet de modifier son panier
 router.patch('/:id', async function(req, res, next) {
     const body = req.body;
     const id = req.params.id
@@ -70,9 +73,9 @@ router.patch('/:id', async function(req, res, next) {
         }
     }) .then((rowsDeleted) => {
         if (rowsDeleted > 0) {
-            res.send(`Le panier:  ${id} à été modifié.`)
+            res.json(cart)
         } else {
-            res.send(`Aucun panier n'a été trouvé avec cet l'id ${id}.`)
+            res.send(`Aucun panier n'aF été trouvé avec cet l'id ${id}.`)
 
         }
     })

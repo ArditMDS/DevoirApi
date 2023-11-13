@@ -10,6 +10,7 @@ function generateToken(id) {
     return jwt.sign({ id: id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 }
 
+//Permet de créer un compte à un visiteur
 router.post('/signup', async (req, res) => {
     const body = req.body;
     if (!body.email || !body.password || !body.role) {
@@ -28,7 +29,7 @@ router.post('/signup', async (req, res) => {
         const user = await User.create({
             email: body.email,
             password: hashedPassword,
-            role: body.role
+            role: "client"
         });
         res.json(user)
         res.status(201).send("Utilisateur créé: " + body.email);
@@ -38,6 +39,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+//Permet de se connecter a son compte et de créer un token
 router.post('/login', async (req, res) => {
     const body = req.body;
     if (!body.email || !body.password) {
