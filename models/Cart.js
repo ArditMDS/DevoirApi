@@ -1,4 +1,4 @@
-const sequelize = require('./_database');
+const sequelize = require('../database/_database');
 const {DataTypes} = require("sequelize");
 
 const Cart = sequelize.define('Cart', {
@@ -12,4 +12,4 @@ const Cart = sequelize.define('Cart', {
     },
 })
 
-module.exports = Cart
+module.exports = Cart ;

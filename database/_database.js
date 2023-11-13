@@ -1,5 +1,5 @@
 // Initialisation de la connexion à la BDD
-const Sequelize = require('sequelize');
+const {Sequelize} = require('sequelize');
 
 const sequelizeInstance = new Sequelize(
     process.env.DB_NAME,
@@ -8,4 +8,4 @@ const sequelizeInstance = new Sequelize(
     {host: 'localhost', 'dialect': 'mysql'}
 )
 
-module.exports = sequelizeInstance
+module.exports = sequelizeInstance ;

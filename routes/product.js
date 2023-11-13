@@ -3,7 +3,7 @@ const router = express.Router();
 
 // Importation d'un modèle Sequelize dans une vue.
 // Par défaut, require ira chercher le fichier index.js
-const { Product } = require('../models');
+const { Product } = require('../database/relation');
 
 router.get('/', function(req, res){
     res.send('Liste des produits');
